@@ -9,7 +9,7 @@ async function runMigrations() {
   await client.connect();
   console.log('Connected to DB');
 
-  const files = ['001_public_schema.sql', '002_tenant_schema.sql'];
+  const files = ['001_public_schema.sql', '002_tenant_schema.sql', '003_shop_settings.sql'];
   for (const f of files) {
     const p = path.join('db/migrations', f);
     const sql = fs.readFileSync(p, 'utf8');

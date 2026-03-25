@@ -69,15 +69,6 @@ function Sidebar({ onNavigate }) {
       <p className={sectionStyle}>Account</p>
       <div className="space-y-1">
         <Item to="/settings" icon="settings" label="Settings" />
-        <Item to="/settings" icon="password" label="Change Password" />
-        <button
-          onClick={handleLogout}
-          className={`w-full text-left ${itemStyle} hover:bg-rose-500/15 hover:text-rose-400`}
-          type="button"
-        >
-          <span className="material-symbols-outlined text-[20px]">logout</span>
-          Logout
-        </button>
       </div>
 
       <p className="absolute bottom-3 left-4 text-xs text-slate-500">v1.0.0</p>

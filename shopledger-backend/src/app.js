@@ -1,4 +1,4 @@
-﻿import express from 'express';
+import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -13,6 +13,7 @@ import supplierRoutes from './modules/suppliers/suppliers.routes.js';
 import transactionRoutes from './modules/transactions/transactions.routes.js';
 import cashbookRoutes from './modules/cashbook/cashbook.routes.js';
 import reportRoutes from './modules/reports/reports.routes.js';
+import shopRoutes from './modules/shops/shops.routes.js';
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/api/suppliers', supplierRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/cashbook', cashbookRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/shops', shopRoutes);
 
 app.use(errorHandler);
 
