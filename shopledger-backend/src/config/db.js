@@ -29,7 +29,7 @@ export const pool = new Pool(poolConfig);
 
 pool.connect((err, client, release) => {
   if (err) {
-    console.error('Database connection failed:', err.message);
+    console.error('Database connection failed:', err);
     process.exit(1);
   }
 
