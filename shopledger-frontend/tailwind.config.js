@@ -1,4 +1,4 @@
-﻿export default {
+export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -49,11 +49,18 @@
         "on-error-container": "#93000a",
         "tertiary-fixed-dim": "#ffb599",
         "on-primary-fixed-variant": "#003fa4",
-        "error-container": "#ffdad6"
+        "error-container": "#ffdad6",
+        navy: "#0A0F1E",
+        "indigo-electric": "#5C6FFF",
+        "violet-accent": "#8B5CF6",
+        "emerald-accent": "#10B981",
+        "warm-white": "#F8FAFF"
       },
       fontFamily: {
-        headline: ["Inter", "sans-serif"],
-        body: ["Inter", "sans-serif"],
+        sans: ["Plus Jakarta Sans", "sans-serif"],
+        heading: ["Syne", "sans-serif"],
+        headline: ["Syne", "sans-serif"],
+        body: ["Plus Jakarta Sans", "sans-serif"],
         label: ["Inter", "sans-serif"]
       },
       borderRadius: {
@@ -61,6 +68,30 @@
         lg: "0.5rem",
         xl: "0.75rem",
         full: "9999px"
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" }
+        },
+        "marquee-reverse": {
+          "0%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0%)" }
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-12px)" }
+        },
+        "pulse-slow": {
+          "0%, 100%": { opacity: "0.6", transform: "scale(1)" },
+          "50%": { opacity: "0.8", transform: "scale(1.08)" }
+        }
+      },
+      animation: {
+        marquee: "marquee 40s linear infinite",
+        "marquee-reverse": "marquee-reverse 40s linear infinite",
+        float: "float 6s ease-in-out infinite",
+        "pulse-slow": "pulse-slow 8s ease-in-out infinite"
       }
     }
   },

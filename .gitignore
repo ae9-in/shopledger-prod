@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.vite/
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Editor/OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+.history/
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+.tmp-*/
+.tmp-*
+.temp/
+*.tmp
