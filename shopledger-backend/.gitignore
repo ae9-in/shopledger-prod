@@ -30,5 +30,31 @@ pnpm-debug.log*
 .history/
 
 # Database / Local overrides
-# .sql
-# .sqlite
+*.sql
+*.sqlite
+*.sqlite3
+*.db
+
+# Seed files with real credentials (keep only empty placeholders in git)
+seed/seed_admin.js
+
+# SSL / Certificates
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cert
+*.key
+
+# Temporary files
+.tmp-*
+*.tmp
+.temp/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Migration output / local overrides
+migrations/local/

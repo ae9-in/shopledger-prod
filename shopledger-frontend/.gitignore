@@ -35,3 +35,12 @@ pnpm-debug.log*
 .tmp-*/
 .tmp-*
 .temp/
+*.tmp
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Test / coverage
+coverage/
+*.test.js.snap
