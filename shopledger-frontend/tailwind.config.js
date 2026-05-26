@@ -58,8 +58,8 @@ export default {
       },
       fontFamily: {
         sans: ["Plus Jakarta Sans", "sans-serif"],
-        heading: ["Syne", "sans-serif"],
-        headline: ["Syne", "sans-serif"],
+        heading: ["Plus Jakarta Sans", "sans-serif"],
+        headline: ["Plus Jakarta Sans", "sans-serif"],
         body: ["Plus Jakarta Sans", "sans-serif"],
         label: ["Inter", "sans-serif"]
       },

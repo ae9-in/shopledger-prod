@@ -440,7 +440,7 @@ export default function LandingPage() {
       <main className="relative z-10">
         
         {/* 🚀 HERO SECTION (Dark theme background, Left-aligned text, Split screen with Rotating Money Wheel) */}
-        <section className="relative pt-32 pb-24 md:pt-40 md:pb-36 min-h-[90vh] flex flex-col justify-center overflow-hidden bg-[#0A0F1E] text-white dot-pattern">
+        <section className="relative pt-36 pb-28 md:pt-48 md:pb-40 min-h-screen flex flex-col justify-center overflow-hidden bg-[#0A0F1E] text-white dot-pattern">
           
           {/* Decorative Mesh Backgrounds */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-80">
@@ -459,7 +459,7 @@ export default function LandingPage() {
                 variants={staggerContainer}
                 initial="hidden"
                 animate="visible"
-                className="font-heading text-5xl font-black leading-[1.08] tracking-tight text-white sm:text-6.5xl md:text-7.5xl"
+                className="font-heading text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl"
               >
                 {heroWords.map((word, idx) => (
                   <motion.span 
@@ -522,7 +522,7 @@ export default function LandingPage() {
               />
 
               {/* The Interactive Orbit Path */}
-              <div className="w-80 h-80 sm:w-90 sm:h-90 rounded-full border border-white/10 relative flex items-center justify-center shadow-inner">
+              <div className="w-80 h-80 sm:w-[420px] sm:h-[420px] lg:w-[480px] lg:h-[480px] rounded-full border border-white/10 relative flex items-center justify-center shadow-inner">
                 
                 {/* Rotating wheel container */}
                 <motion.div 
@@ -557,7 +557,7 @@ export default function LandingPage() {
                             scale: isActive ? 1.15 : 1
                           }}
                           transition={{ type: "spring", stiffness: 60, damping: 15 }}
-                          className={`h-12 w-12 rounded-xl flex items-center justify-center border transition-all duration-300 ${
+                          className={`h-12 w-12 sm:h-14 sm:w-14 rounded-xl flex items-center justify-center border transition-all duration-300 ${
                             isActive 
                               ? "bg-white border-white text-[#0A0F1E] shadow-lg" 
                               : "bg-[#0A0F1E]/80 border-white/10 text-[#94A3B8] hover:border-white/20 hover:text-white"
@@ -566,7 +566,7 @@ export default function LandingPage() {
                             boxShadow: isActive ? `0 0 20px ${sector.color}40` : "none"
                           }}
                         >
-                          <Icon name={sector.icon} className="text-xl" style={{ color: isActive ? sector.color : undefined }} />
+                          <Icon name={sector.icon} className="text-xl sm:text-2xl" style={{ color: isActive ? sector.color : undefined }} />
                         </motion.div>
                       </button>
                     );
@@ -574,7 +574,7 @@ export default function LandingPage() {
                 </motion.div>
 
                 {/* Central Animation Card (Shows current sector detail & animation) */}
-                <div className="w-44 h-44 sm:w-52 sm:h-52 bg-[#0A0F1E]/90 rounded-full border border-white/15 flex flex-col items-center justify-center p-6 text-center shadow-2xl relative z-10 overflow-hidden bg-dot-pattern">
+                <div className="w-44 h-44 sm:w-[220px] sm:h-[220px] lg:w-[260px] lg:h-[260px] bg-[#0A0F1E]/90 rounded-full border border-white/15 flex flex-col items-center justify-center p-6 md:p-8 text-center shadow-2xl relative z-10 overflow-hidden bg-dot-pattern">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeSector}
@@ -585,12 +585,12 @@ export default function LandingPage() {
                       className="w-full flex flex-col items-center justify-center"
                     >
                       {/* Active sector details */}
-                      <p className="text-[10px] uppercase font-black tracking-widest text-[#64748B] mb-1">
+                      <p className="text-[10px] sm:text-xs uppercase font-black tracking-widest text-[#64748B] mb-1.5">
                         {wheelSectors[activeSector].label}
                       </p>
                       
                       {/* Interactive Money Animations in Center */}
-                      <div className="h-16 flex items-center justify-center my-2 relative w-full">
+                      <div className="h-16 sm:h-20 flex items-center justify-center my-2 sm:my-3 relative w-full">
                         {activeSector === 0 && (
                           // Cashbook: Floating coins / cash stream
                           <div className="flex gap-1.5 items-end justify-center">
@@ -675,7 +675,7 @@ export default function LandingPage() {
                       </div>
 
                       <span 
-                        className="text-xs font-bold text-white transition-colors duration-300 mt-1"
+                        className="text-xs sm:text-sm font-bold text-white transition-colors duration-300 mt-1 sm:mt-2"
                         style={{ color: wheelSectors[activeSector].color }}
                       >
                         {activeSector === 0 && "Manage incoming cashflow"}
