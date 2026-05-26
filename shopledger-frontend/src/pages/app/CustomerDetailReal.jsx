@@ -89,16 +89,16 @@ function CustomerDetailReal() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-5">
-          <Link to="/customers" className="h-12 w-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-500/5 transition-all group">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <Link to="/customers" className="h-12 w-12 shrink-0 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-500/5 transition-all group">
             <Icon name="arrow_back" className="group-hover:-translate-x-1 transition-transform" />
           </Link>
           <div>
-            <h2 className="text-3xl font-black tracking-tight text-[#0F172A]">{customer.name}</h2>
-            <div className="flex items-center gap-3 mt-1">
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#0F172A]">{customer.name}</h2>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1">
                <span className="text-[10px] bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full font-black uppercase tracking-widest ring-4 ring-indigo-500/5">{customer.phone || 'No Contact'}</span>
-               <span className="h-1 w-1 rounded-full bg-slate-300" />
+               <span className="hidden sm:inline h-1 w-1 rounded-full bg-slate-300" />
                <button onClick={handleDelete} className="text-[10px] text-rose-400 hover:text-rose-600 font-bold uppercase tracking-widest transition-colors flex items-center gap-1">
                   <Icon name="delete" className="text-sm" /> Delete Customer
                </button>
@@ -107,7 +107,7 @@ function CustomerDetailReal() {
         </div>
         <button 
           onClick={() => setOpen(true)} 
-          className="btn-primary !h-12 px-8" 
+          className="btn-primary !h-12 px-8 w-full sm:w-auto justify-center" 
           type="button"
         >
           <Icon name="add_circle" className="mr-2" />
@@ -153,7 +153,8 @@ function CustomerDetailReal() {
                <Icon name="history" className="text-indigo-500" /> Transaction Timeline
             </h3>
          </div>
-         <div className="overflow-x-auto">
+         {/* Desktop Table View */}
+         <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-sm">
                <thead>
                   <tr className="table-head !bg-white">
@@ -198,6 +199,44 @@ function CustomerDetailReal() {
                   })()}
                </tbody>
             </table>
+         </div>
+
+         {/* Mobile Card-List View */}
+         <div className="divide-y divide-slate-100 md:hidden p-4">
+            {transactions.length === 0 && (
+               <p className="text-center text-slate-400 py-10 font-medium italic">No ledger activity found for this customer.</p>
+            )}
+            {(() => {
+              // Compute running balances
+              let current = Number(customer.balance);
+              const withBalances = [...transactions].reverse().map(tx => {
+                const entryBalance = current;
+                const delta = tx.type === 'cash_in' ? tx.amount : -tx.amount;
+                current -= delta;
+                return { ...tx, runningBalance: entryBalance };
+              }).reverse();
+
+              return withBalances.map((tx) => (
+                <div key={tx.id} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
+                  <div>
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${tx.type === "cash_in" ? "bg-emerald-50 text-emerald-600" : "bg-rose-50 text-rose-600"}`}>
+                      {tx.type === 'cash_in' ? 'Got' : 'Gave'}
+                    </span>
+                    {tx.category && <span className="ml-2 text-xs font-semibold text-slate-500">{tx.category}</span>}
+                    {tx.note && <p className="mt-1 text-xs text-slate-400 italic">{tx.note}</p>}
+                    <p className="mt-1 text-[10px] text-slate-400 font-medium">{formatDate(tx.txn_date || tx.date)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`font-black text-sm ${tx.type === "cash_in" ? "text-emerald-600" : "text-rose-600"}`}>
+                      {tx.type === "cash_in" ? "+" : "-"} {formatCurrency(tx.amount)}
+                    </p>
+                    <p className={`text-[10px] font-bold ${tx.runningBalance >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+                      Bal: {formatCurrency(tx.runningBalance)}
+                    </p>
+                  </div>
+                </div>
+              ));
+            })()}
          </div>
       </div>
 

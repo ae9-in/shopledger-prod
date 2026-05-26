@@ -71,11 +71,11 @@ function TransactionsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-3xl font-black text-slate-800 tracking-tight">Transactions History</h2>
         <button 
           onClick={() => setOpen(true)} 
-          className="btn-primary flex items-center gap-2 px-6 shadow-indigo-500/20" 
+          className="btn-primary flex items-center justify-center gap-2 px-6 shadow-indigo-500/20 w-full sm:w-auto" 
           type="button"
         >
           <span className="material-symbols-outlined text-[22px]">add_task</span>
@@ -83,7 +83,8 @@ function TransactionsPage() {
         </button>
       </div>
 
-      <div className="premium-card overflow-hidden">
+      {/* Desktop Table View */}
+      <div className="hidden md:block premium-card overflow-hidden">
         <div className="table-wrap border-none shadow-none rounded-none">
           <table className="w-full text-sm">
             <thead className="table-head">
@@ -132,6 +133,39 @@ function TransactionsPage() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Mobile Card-List View */}
+      <div className="space-y-3 md:hidden">
+        {transactions.length === 0 && (
+          <div className="card text-center py-12">
+            <span className="material-symbols-outlined text-4xl text-slate-200 block mb-2">receipt_long</span>
+            <p className="text-slate-400 font-medium tracking-tight">Your transaction ledger is empty.</p>
+          </div>
+        )}
+        {transactions.map((tx) => (
+          <article key={tx.id} className="card">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="font-bold text-slate-800">{tx.party_name || 'Walk-in'}</p>
+                <p className="text-[10px] uppercase font-black text-slate-400 tracking-wider">
+                  {tx.party_type} • {formatDate(tx.txn_date)}
+                </p>
+              </div>
+              <span className={`status-badge ${tx.type === 'cash_in' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                {tx.type === 'cash_in' ? 'Money In' : 'Money Out'}
+              </span>
+            </div>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-wide">
+                {tx.category || 'General'}
+              </span>
+              <p className={`font-black text-lg ${tx.type === 'cash_in' ? 'text-emerald-600' : 'text-rose-600'}`}>
+                {tx.type === 'cash_in' ? '+' : '-'} {formatCurrency(tx.amount)}
+              </p>
+            </div>
+          </article>
+        ))}
       </div>
 
       <AnimatePresence>

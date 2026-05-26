@@ -81,19 +81,19 @@ function SupplierDetailReal() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <Link to="/suppliers" className="grid h-10 w-10 place-items-center rounded-2xl bg-[#0F172A] text-white hover:bg-slate-700 shadow-xl transition-all">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <Link to="/suppliers" className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#0F172A] text-white hover:bg-slate-700 shadow-xl transition-all">
             <span className="material-symbols-outlined text-[20px]">arrow_back</span>
           </Link>
           <div>
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight">{supplier.name}</h2>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">{supplier.name}</h2>
             <p className="text-sm font-bold text-slate-400 tracking-widest uppercase">{supplier.phone || 'No Contact'}</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
            <button onClick={handleDelete} className="px-5 py-2 text-xs font-black text-rose-500 hover:text-rose-700 uppercase tracking-widest" type="button">Remove</button>
-           <button onClick={() => setOpen(true)} className="btn bg-slate-900 text-white hover:bg-slate-800 flex items-center gap-2 px-6 shadow-xl shadow-slate-900/10" type="button">
+           <button onClick={() => setOpen(true)} className="btn bg-slate-900 text-white hover:bg-slate-800 flex items-center justify-center gap-2 px-6 shadow-xl shadow-slate-900/10 flex-1 sm:flex-none" type="button">
              <span className="material-symbols-outlined text-[20px]">add_circle</span>
              Record Entry
            </button>
@@ -119,7 +119,8 @@ function SupplierDetailReal() {
 
       <div className="card shadow-lg border-slate-100">
          <h3 className="text-xl font-black text-slate-800 tracking-tight mb-6">Payment Timeline</h3>
-         <div className="table-wrap">
+         {/* Desktop Table View */}
+         <div className="hidden md:block table-wrap">
             <table className="w-full text-sm">
                <thead>
                   <tr className="bg-slate-100 text-slate-500 font-black uppercase tracking-widest text-[10px]">
@@ -145,10 +146,32 @@ function SupplierDetailReal() {
                         <td className={`table-cell text-right font-black text-base not-italic ${tx.type === "cash_in" ? "text-rose-600" : "text-emerald-600"}`}>
                            {formatCurrency(tx.amount)}
                         </td>
-                     </tr>
+                      </tr>
                   ))}
                </tbody>
             </table>
+         </div>
+
+         {/* Mobile Card-List View */}
+         <div className="divide-y divide-slate-100 md:hidden">
+            {transactions.length === 0 && (
+               <p className="text-center text-slate-400 py-10 font-medium italic">No activity found.</p>
+            )}
+            {transactions.map((tx) => (
+               <div key={tx.id} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
+                  <div>
+                     <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${tx.type === "cash_in" ? "bg-rose-100 text-rose-700" : "bg-emerald-100 text-emerald-700"}`}>
+                        {tx.type === "cash_in" ? "Bill" : "Paid"}
+                     </span>
+                     {tx.category && <span className="ml-2 text-xs font-semibold text-slate-500">{tx.category}</span>}
+                     {tx.note && <p className="mt-1 text-xs text-slate-400 italic">{tx.note}</p>}
+                     <p className="mt-1 text-[10px] text-slate-400 font-medium">{formatDate(tx.txn_date || tx.date)}</p>
+                  </div>
+                  <p className={`font-black text-base ${tx.type === "cash_in" ? "text-rose-600" : "text-emerald-600"}`}>
+                     {tx.type === "cash_in" ? "+" : "-"} {formatCurrency(tx.amount)}
+                  </p>
+               </div>
+            ))}
          </div>
       </div>
 

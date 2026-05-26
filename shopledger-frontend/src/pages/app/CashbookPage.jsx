@@ -89,14 +89,14 @@ function CashbookPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black tracking-tight text-[#0F172A]">Cashbook</h2>
           <p className="text-slate-500 text-sm font-medium">Manage your daily physical cash flow and expenses.</p>
         </div>
-        <div className="flex gap-3">
+        <div className="grid grid-cols-2 gap-3 w-full sm:w-auto">
           <button 
-            className="btn h-12 bg-emerald-500 hover:bg-emerald-600 text-white shadow-xl shadow-emerald-500/20 px-6" 
+            className="btn h-12 bg-emerald-500 hover:bg-emerald-600 text-white shadow-xl shadow-emerald-500/20 px-4 justify-center" 
             onClick={() => { setModalType("cash_in"); setOpen(true); }}
             type="button"
           >
@@ -104,7 +104,7 @@ function CashbookPage() {
             Cash In
           </button>
           <button 
-            className="btn h-12 bg-rose-500 hover:bg-rose-600 text-white shadow-xl shadow-rose-500/20 px-6" 
+            className="btn h-12 bg-rose-500 hover:bg-rose-600 text-white shadow-xl shadow-rose-500/20 px-4 justify-center" 
             onClick={() => { setModalType("cash_out"); setOpen(true); }}
             type="button"
           >
@@ -114,27 +114,27 @@ function CashbookPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-3">
-        <div className="premium-card p-6 border-l-4 border-l-emerald-500">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-3">
+        <div className="premium-card p-5 border-l-4 border-l-emerald-500">
           <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">Cash In Total</p>
-          <p className="mt-2 text-3xl font-black text-emerald-600">{formatCurrency(stats.total_in)}</p>
+          <p className="mt-1.5 text-2xl sm:text-3xl font-black text-emerald-600">{formatCurrency(stats.total_in)}</p>
         </div>
-        <div className="premium-card p-6 border-l-4 border-l-rose-500">
+        <div className="premium-card p-5 border-l-4 border-l-rose-500">
           <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">Cash Out Total</p>
-          <p className="mt-2 text-3xl font-black text-rose-600">{formatCurrency(stats.total_out)}</p>
+          <p className="mt-1.5 text-2xl sm:text-3xl font-black text-rose-600">{formatCurrency(stats.total_out)}</p>
         </div>
-        <div className="premium-card p-6 bg-[#0F172A] text-white">
+        <div className="premium-card p-5 bg-[#0F172A] text-white col-span-2 lg:col-span-1">
           <p className="text-[10px] text-slate-400 uppercase tracking-widest font-black">Net Cash Balance</p>
-          <p className={`mt-2 text-3xl font-black ${stats.balance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+          <p className={`mt-1.5 text-2xl sm:text-3xl font-black ${stats.balance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
             {formatCurrency(stats.balance)}
           </p>
         </div>
       </div>
 
       <div className="premium-card overflow-hidden">
-        <div className="flex flex-col md:flex-row bg-slate-50 border-b border-slate-100 p-4 gap-6">
-          <div className="flex flex-1 gap-6 items-center">
-            <div className="flex-1 max-w-[200px]">
+        <div className="flex flex-col md:flex-row bg-slate-50 border-b border-slate-100 p-4 gap-4">
+          <div className="flex flex-wrap gap-4 items-center">
+            <div className="flex-1 min-w-[140px] max-w-[200px]">
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5 block">Record Date</label>
               <input 
                 type="date" 
@@ -146,7 +146,7 @@ function CashbookPage() {
 
             <div className="hidden md:block w-px h-8 bg-slate-200" />
 
-            <div className="flex-1 max-w-[200px]">
+            <div className="flex-1 min-w-[140px] max-w-[200px]">
               <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5 block">Payment Mode</label>
               <select 
                 value={filters.paymentMode} 
@@ -161,7 +161,8 @@ function CashbookPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="table-head !bg-white">
               <tr>
@@ -196,6 +197,34 @@ function CashbookPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card-List View */}
+        <div className="space-y-3 md:hidden">
+          {filtered.length === 0 && (
+            <p className="text-center text-slate-400 py-8">No records found for this period.</p>
+          )}
+          {filtered.map((e) => (
+            <article key={e.id} className="card">
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-tight">
+                    {e.category || 'General'}
+                  </span>
+                  <span className={`text-[9px] font-bold uppercase tracking-wider ml-2 ${e.paymentMode === 'Online' ? 'text-indigo-500' : e.paymentMode === 'UPI' ? 'text-emerald-500 font-black' : 'text-slate-400'}`}>
+                    {e.paymentMode || 'Cash'}
+                  </span>
+                  {e.note && <p className="mt-1.5 text-xs text-slate-500 italic">{e.note}</p>}
+                </div>
+                <div className="text-right">
+                  <p className={`font-black text-lg ${e.type === 'cash_in' ? 'text-emerald-600' : 'text-rose-600'}`}>
+                    {e.type === 'cash_in' ? '+' : '-'} {formatCurrency(e.amount)}
+                  </p>
+                  <p className="text-[10px] text-slate-400 font-medium">{formatDate(e.entry_date || e.date)}</p>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
 

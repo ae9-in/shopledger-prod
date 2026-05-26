@@ -75,12 +75,12 @@ function SuppliersPage() {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black tracking-tight text-[#0F172A]">Suppliers</h2>
           <p className="text-slate-500 text-sm font-medium">Track your inventory sources and procurement costs.</p>
         </div>
-        <button onClick={() => setOpen(true)} className="btn-primary" type="button">
+        <button onClick={() => setOpen(true)} className="btn-primary w-full sm:w-auto" type="button">
           <Icon name="local_shipping" className="mr-2" />
           Add Supplier
         </button>
@@ -109,7 +109,8 @@ function SuppliersPage() {
         </div>
       </div>
 
-      <div className="table-wrap">
+      {/* Desktop Table View */}
+      <div className="hidden md:block table-wrap">
         <table className="w-full text-sm">
           <thead className="table-head">
             <tr>
@@ -142,6 +143,28 @@ function SuppliersPage() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card-List View */}
+      <div className="space-y-3 md:hidden">
+        {filtered.length === 0 && (
+          <p className="text-center text-slate-400 py-8">No suppliers found. Add your first supplier to get started!</p>
+        )}
+        {filtered.map((s) => (
+          <article key={s.id} className="card">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="font-semibold text-slate-900">{s.name}</p>
+                <p className="text-xs text-slate-500">{s.phone || 'No phone'}</p>
+              </div>
+              <span className={`status-badge ${s.balance >= 0 ? "bg-rose-100 text-rose-700" : "bg-emerald-100 text-emerald-700"}`}>
+                {Number(s.balance) >= 0 ? "To Pay" : "Advance"}
+              </span>
+            </div>
+            <p className="mt-2 text-lg font-bold text-slate-800">{formatCurrency(Math.abs(s.balance))}</p>
+            <Link to={`/suppliers/${s.id}`} className="btn-secondary mt-3 block text-center">View Details</Link>
+          </article>
+        ))}
       </div>
 
       {open && createPortal(

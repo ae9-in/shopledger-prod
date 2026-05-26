@@ -115,13 +115,13 @@ function ReportsPage() {
  
   return (
     <div className="space-y-6 pb-10">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">
           Financial Summary
         </h2>
         <button
           onClick={() => setShowModal(true)}
-          className="btn-primary flex items-center gap-2"
+          className="btn-primary flex items-center justify-center gap-2 w-full sm:w-auto"
         >
           <span className="material-symbols-outlined text-[18px]">download</span>
           Download PDF
@@ -197,7 +197,8 @@ function ReportsPage() {
         <h2 className="text-xl font-bold text-slate-800 mb-5">
           Recent All-Module Activity
         </h2>
-        <div className="table-wrap">
+        {/* Desktop Table View */}
+        <div className="hidden md:block table-wrap">
           <table className="w-full text-sm">
             <thead className="table-head">
               <tr>
@@ -235,6 +236,23 @@ function ReportsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile List View */}
+        <div className="divide-y divide-slate-100 md:hidden">
+          {recent.map((item, idx) => (
+            <div key={`${item.source}-${idx}`} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
+              <div>
+                <p className="font-semibold text-slate-700 text-sm">{item.type}</p>
+                <p className="text-[10px] text-slate-400 uppercase font-black tracking-wider mt-0.5">
+                  {item.source} • {formatDate(item.date)}
+                </p>
+              </div>
+              <p className={`font-black text-base ${item.type === "cash_in" || item.type === "Credit" ? "text-emerald-600" : "text-rose-600"}`}>
+                {formatCurrency(item.amount)}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
  

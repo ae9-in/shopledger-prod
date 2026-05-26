@@ -61,6 +61,10 @@ body {
     @apply hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)];
   }
 
+  .card {
+    @apply rounded-2xl bg-white border border-slate-200 p-5 shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-200 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)];
+  }
+
   .label {
     @apply mb-2 block text-[11px] font-black uppercase tracking-widest text-[#64748B];
   }
