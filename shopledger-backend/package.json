@@ -6,7 +6,9 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "db:migrate": "node migrate.js",
+    "db:seed:admin": "node seed/seed_admin.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

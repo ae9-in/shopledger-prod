@@ -30,3 +30,7 @@ Desktop.ini
 .tmp-*
 .temp/
 *.tmp
+
+# Seed files
+**/seed_admin.js
+
